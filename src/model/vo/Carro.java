@@ -72,7 +72,11 @@ public class Carro {
 
 	@Override
 	public String toString() {
-		return "Carro [id=" + id + ", montadora=" + montadora + ", modelo=" + modelo + ", ano=" + ano + ", valor="
-				+ valor + "]";
+		return "Placa: " + this.getPlaca() + ", Modelo: " + this.getModelo()
+				+ ", Montadora: " + this.getMontadora().getNome() + ", Ano: " + this.getAno()
+				+ ", Valor R$:" + this.getValor();
+				
+				/* "Carro [id=" + id + ", montadora=" + montadora + ", modelo=" + modelo + ", ano=" + ano + ", valor="
+				+ valor + "]";*/
 	}
 }

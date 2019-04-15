@@ -23,10 +23,17 @@ public class MontadoraBO {
 	 *          
 	 */
 	public String excluirMontadora(Montadora montadoraSelecionada) {
+		MontadoraDAO dao = new MontadoraDAO();
 		String mensagem = "";
-
-		// TODO implementar as regras do item 1.c (c.1, c.2 e c.3) da avaliação
-
+		
+		boolean resultado = dao.montadoraTemCarroCadastrado(montadoraSelecionada.getId());
+		if (resultado == true) {
+			mensagem = "Montadora não pode ser excluida, possui Carros!";
+		} else {
+			dao.excluir(montadoraSelecionada.getId());
+			mensagem = "Montadora Excluida com Sucesso!";
+		}
+		
 		return mensagem;
 	}
 }

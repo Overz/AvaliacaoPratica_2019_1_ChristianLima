@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.Banco;
+import model.vo.Carro;
 import model.vo.Montadora;
 
 public class MontadoraDAO {
@@ -125,6 +126,7 @@ public class MontadoraDAO {
 
 		} catch (SQLException e) {
 			System.out.println("Erro listar todas as montadoras. Erro: " + e.getMessage());
+			System.out.println(sql);
 		}
 
 		return montadoras;
@@ -140,7 +142,21 @@ public class MontadoraDAO {
 	public boolean montadoraTemCarroCadastrado(int idMontadora) {
 		boolean temCarroDaMontadora = false;
 
-		//TODO implementar (item 2.c)
+		String query = "SELECT * FROM CARRO WHERE idMontadora = " + idMontadora;
+		Carro c = null;
+
+		try {
+			PreparedStatement instrucaoSQL = Banco.getConnection().prepareStatement(query);
+			ResultSet resultadoConsulta = instrucaoSQL.executeQuery();
+			while (resultadoConsulta.next()) {
+				temCarroDaMontadora = true;
+				
+			}
+		} catch (SQLException e) {
+			System.out.println("montadoraTemCarroCadastrado(método)");
+			System.out.println(e.getMessage());
+			System.out.println(query);
+		}
 
 		return temCarroDaMontadora;
 	}

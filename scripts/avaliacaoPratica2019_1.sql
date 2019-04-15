@@ -1,6 +1,6 @@
 CREATE SCHEMA `avaliacaopratica` ;
 
---DDLs 
+-- DDLs 
 CREATE TABLE `avaliacaopratica`.`montadora` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(255) NOT NULL,

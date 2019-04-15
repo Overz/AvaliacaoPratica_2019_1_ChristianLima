@@ -143,16 +143,80 @@ public class CarroDAO {
 
 	public ArrayList<Carro> listarPorPlaca(String placaCarro) {
 		//TODO implementar (parte do item 1.c.2)
+		ArrayList<Carro> carros = null;
+
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet resultado = null;
+		String query = "SELECT * FROM CARRO WHERE PLACA = '" + placaCarro.toUpperCase() + "'";
+
+		try {
+			resultado = stmt.executeQuery(query);
+			carros = new ArrayList<Carro>();
+			while (resultado.next()) {
+				Carro c = criarCarroResultSet(resultado);
+				carros.add(c);
+			}
+			return carros;
+		} catch (SQLException e) {
+			System.out.println("Erro ao Listar por Placa!");
+			System.out.println(e.getMessage());
+			System.out.println(query);
+		}
+
 		return null; 
 	}
 
 	public ArrayList<Carro> listarPorMontadora(Montadora montadoraSelecionada) {
 		//TODO implementar (parte do item 1.c.2)
+		ArrayList<Carro> carros = null;
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet resultado = null;
+		
+		String query = "SELECT * FROM CARRO WHERE idMontadora = " + montadoraSelecionada.getId();
+		
+		try {
+			carros = new ArrayList<Carro>();
+			resultado = stmt.executeQuery(query);
+			while (resultado.next()) {
+				Carro c = criarCarroResultSet(resultado);
+				carros.add(c);
+				
+			}
+			return carros;
+		} catch (SQLException e) {
+			System.out.println("Erro ao obter Montadora!");
+			System.out.println(e.getMessage());
+			System.out.println(query);
+		}
+
 		return null;
 	}
 
 	public ArrayList<Carro> listarPorPlacaEMontadora(String placaCarro, Montadora montadoraSelecionada) {
 		//TODO implementar (item 1.c.3)
+		ArrayList<Carro> carros = null;
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet resultado = null;
+
+		String query = "SELECT * FROM CARRO c, MONTADORA WHERE placa ='" + placaCarro.toUpperCase() + "' "
+				+ "AND idMontadora = " + montadoraSelecionada.getId();
+		try {
+			carros = new ArrayList<Carro>();
+			resultado = stmt.executeQuery(query);
+			while (resultado.next()) {
+				Carro c = criarCarroResultSet(resultado);
+				carros.add(c);
+			}
+			return carros;
+		} catch (SQLException e) {
+			System.out.println("Erro ao Obeter Placa e Montadora");
+			System.out.println(e.getMessage());
+			System.out.println(query);
+		}
+
 		return null;
 	}
 
@@ -175,6 +239,7 @@ public class CarroDAO {
 			Montadora m = montadoraDAO.consultarPorId(idMontadora);
 
 			c.setMontadora(m);
+			c.setPlaca(resultadoConsulta.getString("placa"));
 			c.setAno(resultadoConsulta.getInt("ano"));
 			c.setModelo(resultadoConsulta.getString("modelo"));
 			c.setValor(resultadoConsulta.getDouble("valor"));
